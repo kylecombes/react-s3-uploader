@@ -10,6 +10,7 @@ var React = require('react'),
 var ReactS3Uploader = createReactClass({
 
     propTypes: {
+        identityPoolId: PropTypes.string,
         signingUrl: PropTypes.string,
         getSignedUrl: PropTypes.func,
         preprocess: PropTypes.func,
@@ -37,6 +38,7 @@ var ReactS3Uploader = createReactClass({
 
     getDefaultProps: function() {
         return {
+            identityPoolId: null,
             preprocess: function(file, next) {
                 console.log('Pre-process: ' + file.name);
                 next(file);
@@ -63,6 +65,7 @@ var ReactS3Uploader = createReactClass({
     uploadFile: function() {
         this.myUploader = new S3Upload({
             fileElement: ReactDOM.findDOMNode(this),
+            identityPoolId: this.props.identityPoolId,
             signingUrl: this.props.signingUrl,
             getSignedUrl: this.props.getSignedUrl,
             preprocess: this.props.preprocess,

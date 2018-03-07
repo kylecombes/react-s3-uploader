@@ -23,6 +23,20 @@ function S3Router(options, middleware) {
         throw new Error("S3_BUCKET is required.");
     }
 
+    if (options.identityPoolId) {
+        var updateOptions = {
+          credentials: new aws.CognitoIdentityCredentials({
+            IdentityPoolId: options.identityPoolId
+          })
+        };
+
+        if (options.region) {
+            updateOptions.region = options.region;
+        }
+        aws.config.update(updateOptions);
+
+    }
+
     var getS3 = options.getS3;
     if (!getS3) {
       var s3Options = {};
